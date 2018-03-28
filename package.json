@@ -52,8 +52,9 @@
     "readline-sync": "^1.4.8",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
-    "technicalindicators": "^1.0.21",
+    "technicalindicators": "^1.1.8",
     "tulind": "^0.8.9",
+    "typings": "^2.1.1",
     "uuid": "^3.1.0"
   }
 }

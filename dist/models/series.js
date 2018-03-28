@@ -4,6 +4,9 @@ const fs = require("fs");
 const utils_1 = require("../utils");
 const errors_1 = require("../errors");
 const types_1 = require("./types");
+const logger_1 = require("../utils/logger");
+const path = require("path");
+const logger = new logger_1.LoggerApi();
 class Serializer {
     properties(tick) {
         return [tick.timestamp];
@@ -246,6 +249,7 @@ class Series {
             });
         }
         else {
+            logger.error("Uh oh I can't find: ", this.filepath, " my cwd is:", process.cwd(), " which resolves to: ", path.resolve(process.cwd(), this.filepath), " are you sure you have this file?");
             throw new errors_1.BacktestFileMissingError(this.filepath);
         }
     }

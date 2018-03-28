@@ -127,13 +127,13 @@ Running a trader and placing live trades should be the _absolute last_ thing you
 #### Running A Backtest
 Running a backtest is done exactly like running a regular trader, but adding the backtest (`-b` or `--backtest`) flag:
 
-    npm run dev -- my.trader --symbol BTC --amount 0.5 -b
+    npm run dev -- traders/my.trader --symbol BTC --amount 0.5 -b
 
 This will ask you to put in the date range you'd like to grab data for. The [`Backfiller`](src/models/backfiller.ts) will then go and download the necessary OHLCV data to run the backtest, save a scenario file for future use, and run your trader against this data, mocking all orders and balances.
 
 To test against this with a different trader, simply point the backtest flag at the newly generated scenario file:
 
-    npm run dev -- another.trader --symbol BTC --amount 0.5 -b scenarios/my.scenario
+    npm run dev -- traders/another.trader --symbol BTC --amount 0.5 -b scenarios/my.scenario
 
 ### Full Paranoia Verification
 Since hodlol accesses sensitive shit, it's fair to be cautious around the sanctity of the code. If there end up being more contributors, you should make sure the commit you're checking out is verified by me/someone you trust. Github puts a little "verified" flag on all such commits; you can also verify a commit locally with `git verify-commit <commit>`.

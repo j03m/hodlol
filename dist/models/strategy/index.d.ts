@@ -26,6 +26,7 @@ export declare class Strategy {
     protected indicators: Indicator[];
     protected orders: Map<ID, Order>;
     originalValue: Value;
+    private static logger;
     constructor(portfolio: Portfolio, source: StrategyJSON, tsi: TraderStrategyInterface);
     before(): Promise<void>;
     after(): Promise<void>;

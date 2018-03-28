@@ -10,6 +10,7 @@ import { Thread } from "../utils";
 export class Backfiller {
   constructor(readonly trader:TraderJSON) {}
 
+  //j03m: todo: extract into testable functional blocks
   async run(name:string, start:number, end:number):Promise<string> {
     const trader:TraderJSON = this.trader;
     Scenario.createWithName(name, start, end);
@@ -18,6 +19,7 @@ export class Backfiller {
     mkdirp.sync(`./${Scenario.getInstance().dataDir()}/${trader.exchange}/${name}`);
     let api:API = new apiClass();
     const exchange = new Exchange(api);
+    //j03m: todo: maybe faster to promise.all
     await exchange.loadFeeds(trader.tickers);
     await exchange.loadMarketplace(trader.tickers);
     const tickers = Array.from(exchange.feed.candles.values());

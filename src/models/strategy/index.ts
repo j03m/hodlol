@@ -8,6 +8,7 @@ import { OHLCVTicker } from "../ticker";
 import { InvalidSignalError } from "../../errors";
 import { IMarket } from "../market";
 import { load } from "../../utils";
+import { LoggerApi } from "../../utils/logger"
 const uuid = require('uuid/v4');
 
 export interface StrategyJSON {
@@ -32,6 +33,7 @@ export class Strategy {
   protected indicators:Indicator[] = [];
   protected orders:Map<ID,Order> = new Map<ID,Order>();
   public originalValue:Value;
+  private static logger = new LoggerApi("strategy");
 
   constructor(public portfolio:Portfolio, source:StrategyJSON, protected tsi:TraderStrategyInterface) {
     this.id = uuid();
@@ -100,10 +102,12 @@ export class Strategy {
   }
 
   protected async placeLimitBuyOrder(market:IMarket, budget:Num, close:Num):Promise<Order> {
+    Strategy.logger.info("Placing buy order");
     return this.placeOrder(LimitOrderRequest.buyMaxWithBudget(market, budget, close, this.portfolio.id));
   }
 
   protected async placeLimitSellOrder(market:IMarket, budget:Num, close:Num):Promise<Order> {
+    Strategy.logger.info("Placing sell order");
     return this.placeOrder(new LimitSellOrderRequest(market, budget, close, this.portfolio.id));
   }
 

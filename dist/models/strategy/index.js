@@ -5,6 +5,7 @@ const types_1 = require("../types");
 const order_1 = require("../order");
 const errors_1 = require("../../errors");
 const utils_1 = require("../../utils");
+const logger_1 = require("../../utils/logger");
 const uuid = require('uuid/v4');
 class Strategy {
     constructor(portfolio, source, tsi) {
@@ -76,14 +77,17 @@ class Strategy {
         }
     }
     async placeLimitBuyOrder(market, budget, close) {
+        Strategy.logger.info("Placing buy order");
         return this.placeOrder(order_1.LimitOrderRequest.buyMaxWithBudget(market, budget, close, this.portfolio.id));
     }
     async placeLimitSellOrder(market, budget, close) {
+        Strategy.logger.info("Placing sell order");
         return this.placeOrder(new order_1.LimitSellOrderRequest(market, budget, close, this.portfolio.id));
     }
     getTitle() {
         return "Strategy";
     }
 }
+Strategy.logger = new logger_1.LoggerApi("strategy");
 exports.Strategy = Strategy;
 //# sourceMappingURL=index.js.map

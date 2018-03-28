@@ -3,6 +3,10 @@ import { bnearest } from "../utils";
 import { BacktestFileMissingError, InvalidCSVError } from "../errors";
 import { OrderSide, OrderType } from "./order";
 import { Scenario, ScenarioMode, Tick, ExchangeState, OHLCVTick, OHLCV, TickerTick, TTicker, OrderTick, Order, Element } from "./types";
+import { LoggerApi } from "../utils/logger"
+const path = require("path");
+
+const logger = new LoggerApi();
 
 export class Serializer<T extends Element> {
 
@@ -253,6 +257,11 @@ export class Series<T extends Element> {
         }
       });
     } else {
+
+      logger.error("Uh oh I can't find: ", this.filepath,
+                  " my cwd is:", process.cwd(),
+                  " which resolves to: ", path.resolve(process.cwd(), this.filepath ),
+                  " are you sure you have this file?");
       throw new BacktestFileMissingError(this.filepath);
     }
   }

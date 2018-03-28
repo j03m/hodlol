@@ -76,8 +76,8 @@ export declare class BitfieldState {
 }
 export interface IScenario {
     id: ID;
-    start: number;
-    end: number;
+    start: number | string;
+    end: number | string;
     record?: boolean;
     test?: boolean;
 }
@@ -95,10 +95,13 @@ export declare class Scenario implements IScenario {
     mode: ScenarioMode;
     private static instance;
     private constructor();
+    tryParseStartEnd(json: IScenario): number[];
+    tryParseDateString(input: number | string): number;
     dataDir(): string;
     static getInstance(): Scenario;
     static create(filepath: string): void;
     static createWithName(name: string, start: number, end: number, record?: boolean, test?: boolean): void;
+    static createWithObject(json: IScenario, force: boolean): void;
     static shouldWrite(): boolean;
     static kill(): void;
 }

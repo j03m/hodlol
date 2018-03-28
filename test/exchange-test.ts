@@ -1,4 +1,4 @@
-import { BitState, BitfieldState, Scenario } from '../src/models/types';
+  import { BitState, BitfieldState, Scenario } from '../src/models/types';
 import { Exchange } from '../src/models/exchange';
 const ccxt = require('ccxt');
 import { expect } from 'chai';

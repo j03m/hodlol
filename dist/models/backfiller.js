@@ -11,6 +11,7 @@ class Backfiller {
     constructor(trader) {
         this.trader = trader;
     }
+    //j03m: todo: extract into testable functional blocks
     async run(name, start, end) {
         const trader = this.trader;
         types_1.Scenario.createWithName(name, start, end);
@@ -20,6 +21,7 @@ class Backfiller {
         mkdirp.sync(`./${types_1.Scenario.getInstance().dataDir()}/${trader.exchange}/${name}`);
         let api = new apiClass();
         const exchange = new exchange_1.Exchange(api);
+        //j03m: todo: maybe faster to promise.all
         await exchange.loadFeeds(trader.tickers);
         await exchange.loadMarketplace(trader.tickers);
         const tickers = Array.from(exchange.feed.candles.values());

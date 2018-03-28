@@ -39,6 +39,7 @@ logger.info("resolve to: ", resolvedTraderPath);
   if (!foundTrader){
     logger.fatal("We couldn't find trader. Fully resolved path: " + resolvedTraderPath, " supplied opts:", opts, " current cwd: ", process.cwd());
   }
+
   let traderJSON:TraderJSON = JSON.parse(fs.readFileSync(opts.trader).toString());
   
   // if we're asking to backtest without providing a scenario file,

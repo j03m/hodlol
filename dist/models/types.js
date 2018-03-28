@@ -4,6 +4,7 @@ const bignumber_js_1 = require("bignumber.js");
 const fs = require("fs");
 const errors_1 = require("../errors");
 const logger_1 = require("../utils/logger");
+const chrono = require("chrono-node");
 const logger = new logger_1.LoggerApi();
 bignumber_js_1.BigNumber.config({ DECIMAL_PLACES: 15, ROUNDING_MODE: bignumber_js_1.BigNumber.ROUND_DOWN });
 function BN(x) {
@@ -99,8 +100,9 @@ class Scenario {
             this.mode = ScenarioMode.RECORD;
         }
         this.id = json.id;
-        this.start = Number(json.start);
-        this.end = Number(json.end);
+        const [start, end] = this.tryParseStartEnd(json);
+        this.start = start;
+        this.end = end;
         if (!json.record) {
             this.record = this.mode == ScenarioMode.RECORD;
         }
@@ -109,6 +111,28 @@ class Scenario {
         }
         this.test = json.test === true;
         this.time = this.start;
+    }
+    tryParseStartEnd(json) {
+        let start = Number(json.start);
+        let end = Number(json.end);
+        //non numbers will fail out as nan
+        if (isNaN(start)) {
+            start = this.tryParseDateString(json.start);
+        }
+        if (isNaN(end)) {
+            end = this.tryParseDateString(json.end);
+        }
+        logger.info("Scenario running: ", start, " to ", end);
+        return [start, end];
+    }
+    tryParseDateString(input) {
+        let startDate = chrono.parseDate(input);
+        if (startDate === null) {
+            logger.fatal("Bailing out, couldn't interpret scenario file start time", "start:", input);
+        }
+        else {
+            return startDate.getTime();
+        }
     }
     dataDir() {
         return this.test ? "test/data" : "data";
@@ -124,6 +148,11 @@ class Scenario {
     static createWithName(name, start, end, record = true, test = false) {
         if (!Scenario.instance) {
             Scenario.instance = new Scenario({ id: name, start: start, end: end, record: record, test: test });
+        }
+    }
+    static createWithObject(json, force) {
+        if (!Scenario.instance || force) {
+            Scenario.instance = new Scenario(json);
         }
     }
     static shouldWrite() {
