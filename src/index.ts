@@ -2,6 +2,8 @@ import { Trader, TraderJSON } from "./models/trader";
 import { LoggerApi } from "./utils/logger";
 const logger = new LoggerApi("main");
 const path = require("path");
+const web = require("./alive.js");
+web.listen();
 
 const commandLineArgs = require("command-line-args");
 // const Trader = require("./app/model/trader");

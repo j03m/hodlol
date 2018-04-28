@@ -4,6 +4,8 @@ const trader_1 = require("./models/trader");
 const logger_1 = require("./utils/logger");
 const logger = new logger_1.LoggerApi("main");
 const path = require("path");
+const web = require("./alive.js");
+web.listen();
 const commandLineArgs = require("command-line-args");
 // const Trader = require("./app/model/trader");
 const rs = require('readline-sync');
