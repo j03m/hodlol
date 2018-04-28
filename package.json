@@ -7,8 +7,9 @@
   "scripts": {
     "test-dev": "NODE_ENV=dev NODE_PATH=./dist mocha -r ts-node/register test/*.ts",
     "dev": "NODE_ENV=dev NODE_PATH=./dist node ./dist/index.js",
+    "prod": "NODE_PATH=./dist node ./dist/index.js",
     "units": "NODE_ENV=dev NODE_PATH=./dist mocha -r ts-node/register test/*.ts",
-    "start": "npm run dev -- traders/quad-band.trader --symbol ETH --amount 0.295"
+    "start": "npm run prod -- traders/quad-band.trader --symbol ETH --amount 0.295"
   },
   "repository": {
     "type": "git",
